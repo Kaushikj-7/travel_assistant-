@@ -33,30 +33,28 @@ Distinctions Implemented:
   🏆 Distinction 3: State persistence with MemorySaver checkpointer
 """
 
-from langgraph.graph import StateGraph, START, END
+
 from langgraph.checkpoint.memory import MemorySaver
-import os
-import contextlib
+from langgraph.graph import END, START, StateGraph
 
 # Try to import PostgresSaver for industrial persistence
 try:
     from langgraph.checkpoint.postgres import PostgresSaver
-    from psycopg import Connection
     HAS_POSTGRES = True
 except ImportError:
     HAS_POSTGRES = False
 
-from graph.state import AgentState
+from graph.edges import route_by_knowledge
 from graph.nodes import (
-    parse_input,
+    aggregate_response,
     check_knowledge,
+    fetch_images,
+    fetch_weather,
+    parse_input,
     vectorstore_retrieve,
     web_search,
-    fetch_weather,
-    fetch_images,
-    aggregate_response,
 )
-from graph.edges import route_by_knowledge
+from graph.state import AgentState
 
 
 def build_graph(conn=None):

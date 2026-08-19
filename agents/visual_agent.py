@@ -11,8 +11,8 @@ Role:
 
 import time
 from datetime import datetime
-from typing import Dict, Any, List
-from mcp_server.client import mcp_client
+from typing import Any, Dict
+
 from tools.images import get_curated_media_objects
 
 

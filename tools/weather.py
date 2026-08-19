@@ -5,13 +5,13 @@ Fetches authoritative 7-day weather forecasts with daily maximum/minimum tempera
 WMO weather conditions, humidity, and wind speed using the Open-Meteo API.
 """
 
-import time
-import random
 import json
-import urllib.request
+import random
 import urllib.parse
+import urllib.request
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 from langchain_core.tools import tool
 
 # WMO Weather interpretation codes

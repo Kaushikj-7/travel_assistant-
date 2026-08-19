@@ -14,12 +14,13 @@ Tests all Core Challenge Requirements, Distinctions, MCP Protocol, and Guardrail
 
 import unittest
 import uuid
+
 from pydantic import ValidationError
-from models.schemas import TravelResponse, WeatherDataPoint, TravelImage, Coordinates
-from mcp_server.client import mcp_client
-from mcp_server.server import mcp_server
+
 from agents.guardrail_agent import GuardrailAgent
 from graph.builder import build_graph
+from mcp_server.client import mcp_client
+from models.schemas import TravelResponse
 
 
 class TestMultiModalTravelAssistant(unittest.TestCase):

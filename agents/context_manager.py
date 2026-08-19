@@ -12,8 +12,13 @@ Intent Classes:
 """
 
 import re
-from typing import Dict, Any, Tuple, Optional, List
-from agents.guardrail_agent import GuardrailAgent, VERIFIED_GLOBAL_REGISTRY, FICTIONAL_LOCATIONS
+from typing import Any, Dict, List, Optional
+
+from agents.guardrail_agent import (
+    FICTIONAL_LOCATIONS,
+    VERIFIED_GLOBAL_REGISTRY,
+    GuardrailAgent,
+)
 
 
 class ContextManager:

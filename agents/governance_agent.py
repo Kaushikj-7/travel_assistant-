@@ -9,17 +9,17 @@ Role:
 """
 
 from datetime import datetime
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict
+
 from langchain_core.messages import AIMessage
+
 from models.schemas import (
+    Coordinates,
+    CuisineItem,
+    LandmarkPoint,
+    TravelImage,
     TravelResponse,
     WeatherDataPoint,
-    ItineraryDay,
-    Activity,
-    Coordinates,
-    TravelImage,
-    LandmarkPoint,
-    CuisineItem,
 )
 from tools.destination_intel import get_destination_intelligence
 from utils.logger import logger

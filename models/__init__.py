@@ -1,1 +1,3 @@
-from models.schemas import WeatherDataPoint, TravelResponse
+from models.schemas import TravelResponse, WeatherDataPoint
+
+__all__ = ["TravelResponse", "WeatherDataPoint"]

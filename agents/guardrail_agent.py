@@ -8,12 +8,11 @@ Architecture:
 - Strict Output Hallucination Guard (Blocks fabricated coordinates, mock forecasts, and synthetic images)
 """
 
-import re
 import json
-import urllib.request
+import re
 import urllib.parse
-from typing import Dict, Any, Tuple, Optional
-from vectorstore.data import SUPPORTED_CITIES, CITY_KNOWLEDGE
+import urllib.request
+from typing import Any, Dict, Optional, Tuple
 
 # Curated registry of verified major global destinations and country hubs for instantaneous zero-latency validation
 VERIFIED_GLOBAL_REGISTRY: Dict[str, Dict[str, Any]] = {

@@ -5,11 +5,11 @@ Provides verified destination intelligence from Wikipedia API and curated encycl
 Strictly returns verified data or empty on unverified destinations (No generic hallucinations).
 """
 
-import time
 import json
-import urllib.request
 import urllib.parse
+import urllib.request
 from typing import Optional
+
 from langchain_core.tools import tool
 
 # Curated high-fidelity knowledge for key destinations

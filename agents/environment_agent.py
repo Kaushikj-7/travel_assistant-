@@ -9,9 +9,10 @@ Role:
 
 import time
 from datetime import datetime
-from typing import Dict, Any
-from mcp_server.client import mcp_client
+from typing import Any, Dict
+
 from agents.visual_agent import VisualAssetAgent
+from mcp_server.client import mcp_client
 
 
 class EnvironmentAndMediaAgent:

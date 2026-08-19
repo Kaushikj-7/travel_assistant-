@@ -6,8 +6,9 @@ and enriched with patterns from enterprise travel planner agents (itinerary plan
 geocoordinates, weather telemetry, landmarks, and categorized image assets).
 """
 
+from typing import List, Optional
+
 from pydantic import BaseModel, Field
-from typing import List, Optional, Dict, Any
 
 
 class WeatherDataPoint(BaseModel):

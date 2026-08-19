@@ -6,8 +6,10 @@ Seeds the collection with verified factual chunks for Paris, Tokyo, and New York
 """
 
 import os
+
 import chromadb
 from dotenv import load_dotenv
+
 from vectorstore.data import CITY_KNOWLEDGE, SUPPORTED_CITIES
 
 load_dotenv()

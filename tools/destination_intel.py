@@ -8,10 +8,11 @@ Fetches accurate, factual travel data for any city worldwide using:
 """
 
 import json
-import urllib.request
 import urllib.parse
-from typing import Dict, Any, List, Optional
-from models.schemas import Coordinates, Activity, ItineraryDay
+import urllib.request
+from typing import Any, Dict, Optional
+
+from models.schemas import Activity, ItineraryDay
 
 # Comprehensive verified destination intelligence database
 VERIFIED_DESTINATION_DATABASE: Dict[str, Dict[str, Any]] = {

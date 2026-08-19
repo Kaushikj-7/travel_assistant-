@@ -12,15 +12,13 @@ Provides verified, authentic photography for destinations worldwide using:
 3. Strict Deduplication & Hash Verification to guarantee non-repeating images.
 """
 
-import time
-import random
 import json
 import re
-import urllib.request
 import urllib.parse
-from typing import List, Dict, Any, Optional
-from langchain_core.tools import tool
+import urllib.request
+from typing import Dict, List
 
+from langchain_core.tools import tool
 
 # High-resolution curated category photography for top global destinations
 CURATED_CATEGORY_MEDIA: Dict[str, List[Dict[str, str]]] = {

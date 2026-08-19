@@ -6,12 +6,14 @@ leveraging MCP tools and protocol contracts.
 """
 
 import os
+
 from dotenv import load_dotenv
+
+from agents.environment_agent import EnvironmentAndMediaAgent
+from agents.governance_agent import GovernanceAndTestingAgent
 from agents.planning_agent import PlanningAgent
 from agents.retrieval_agent import RetrievalAgent
 from agents.web_agent import WebResearchAgent
-from agents.environment_agent import EnvironmentAndMediaAgent
-from agents.governance_agent import GovernanceAndTestingAgent
 
 load_dotenv()
 

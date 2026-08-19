@@ -7,8 +7,9 @@ deployment, this would use stdio/SSE transport to a separate MCP
 server process.
 """
 
-from typing import Dict, Any, List, Optional
-from mcp_server.server import mcp_server, TravelMCPServer
+from typing import Any, Dict, List, Optional
+
+from mcp_server.server import TravelMCPServer, mcp_server
 
 
 class MCPClientBridge:

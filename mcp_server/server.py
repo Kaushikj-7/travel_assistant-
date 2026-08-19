@@ -7,13 +7,15 @@ using fastmcp.
 
 import json
 import time
-from typing import Dict, Any, List, Optional
+from typing import Any, Dict, List, Optional
+
 from fastmcp import FastMCP
-from tools.weather import get_weather_forecast as weather_tool
+
 from tools.images import get_city_images as images_tool
 from tools.search import search_web as search_tool
-from vectorstore.setup import query_vectorstore as vs_query
+from tools.weather import get_weather_forecast as weather_tool
 from vectorstore.data import CITY_KNOWLEDGE
+from vectorstore.setup import query_vectorstore as vs_query
 
 mcp = FastMCP("TravelAssistant")
 

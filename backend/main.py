@@ -1,12 +1,13 @@
-from fastapi import FastAPI, Depends, HTTPException
-from contextlib import asynccontextmanager
 import os
-import psycopg
-from psycopg.rows import dict_row
+from contextlib import asynccontextmanager
 
+import psycopg
+from fastapi import FastAPI, HTTPException
+from psycopg.rows import dict_row
 from pydantic import BaseModel
 
-from graph.builder import build_graph, HAS_POSTGRES
+from graph.builder import HAS_POSTGRES, build_graph
+
 
 class DBConnectionManager:
     def __init__(self):
@@ -64,8 +65,10 @@ class ChatResponse(BaseModel):
 def health_check():
     return {"status": "ok", "postgres_enabled": HAS_POSTGRES, "db_connected": db_manager.get_conn() is not None}
 
-from fastapi.responses import StreamingResponse
 import json
+
+from fastapi.responses import StreamingResponse
+
 
 @app.post("/chat/stream")
 async def chat_stream_endpoint(request: ChatRequest):

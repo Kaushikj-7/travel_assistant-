@@ -12,18 +12,18 @@ Architectural Reference:
 - Authentic Categorized Media & Lightbox Visual Gallery
 """
 
-import os
-import uuid
 import json
-import time
+import os
 import textwrap
+import uuid
+
 import pandas as pd
-import streamlit as st
 import plotly.graph_objects as go
+import streamlit as st
 from dotenv import load_dotenv
 
-from mcp_server.client import mcp_client
 from graph.builder import build_graph
+from mcp_server.client import mcp_client
 
 load_dotenv()
 

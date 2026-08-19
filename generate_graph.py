@@ -5,10 +5,10 @@ Uses LangGraph's draw_mermaid_png() or mermaid.ink rendering service,
 falling back to a high-res diagram generation.
 """
 
-import sys
-import os
-import io
 import base64
+import io
+import os
+import sys
 import urllib.request
 
 # Ensure UTF-8 output on Windows
@@ -59,7 +59,7 @@ def main():
 
     # 3. If online services unavailable, create clean PIL diagram
     try:
-        from PIL import Image, ImageDraw, ImageFont
+        from PIL import Image, ImageDraw
         img = Image.new("RGBA", (1000, 750), (250, 250, 252, 255))
         draw = ImageDraw.Draw(img)
 

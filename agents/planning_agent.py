@@ -10,8 +10,10 @@ Role:
 
 import logging
 from datetime import datetime
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 from langchain_core.messages import HumanMessage, SystemMessage
+
 from agents.context_manager import ContextManager
 
 logger = logging.getLogger("travel_agent")
