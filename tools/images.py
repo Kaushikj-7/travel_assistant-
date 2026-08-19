@@ -15,6 +15,7 @@ Provides verified, authentic photography for destinations worldwide using:
 import time
 import random
 import json
+import re
 import urllib.request
 import urllib.parse
 from typing import List, Dict, Any, Optional
