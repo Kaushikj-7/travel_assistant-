@@ -15,36 +15,62 @@ import urllib.parse
 from typing import Dict, Any, Tuple, Optional
 from vectorstore.data import SUPPORTED_CITIES, CITY_KNOWLEDGE
 
-# Curated registry of verified major global destinations for instantaneous zero-latency validation
+# Curated registry of verified major global destinations and country hubs for instantaneous zero-latency validation
 VERIFIED_GLOBAL_REGISTRY: Dict[str, Dict[str, Any]] = {
     "paris": {"name": "Paris", "latitude": 48.8566, "longitude": 2.3522, "country": "France", "region": "Île-de-France"},
+    "france": {"name": "France", "latitude": 48.8566, "longitude": 2.3522, "country": "France", "region": "Western Europe"},
     "tokyo": {"name": "Tokyo", "latitude": 35.6762, "longitude": 139.6503, "country": "Japan", "region": "Kantō"},
+    "japan": {"name": "Japan", "latitude": 35.6762, "longitude": 139.6503, "country": "Japan", "region": "East Asia"},
     "new york": {"name": "New York", "latitude": 40.7128, "longitude": -74.0060, "country": "United States", "region": "New York"},
     "nyc": {"name": "New York", "latitude": 40.7128, "longitude": -74.0060, "country": "United States", "region": "New York"},
+    "usa": {"name": "United States", "latitude": 40.7128, "longitude": -74.0060, "country": "United States", "region": "North America"},
+    "united states": {"name": "United States", "latitude": 40.7128, "longitude": -74.0060, "country": "United States", "region": "North America"},
     "kyoto": {"name": "Kyoto", "latitude": 35.0116, "longitude": 135.7681, "country": "Japan", "region": "Kansai"},
     "london": {"name": "London", "latitude": 51.5074, "longitude": -0.1278, "country": "United Kingdom", "region": "England"},
+    "uk": {"name": "United Kingdom", "latitude": 51.5074, "longitude": -0.1278, "country": "United Kingdom", "region": "Western Europe"},
+    "united kingdom": {"name": "United Kingdom", "latitude": 51.5074, "longitude": -0.1278, "country": "United Kingdom", "region": "Western Europe"},
     "sydney": {"name": "Sydney", "latitude": -33.8688, "longitude": 151.2093, "country": "Australia", "region": "New South Wales"},
+    "australia": {"name": "Australia", "latitude": -33.8688, "longitude": 151.2093, "country": "Australia", "region": "Oceania"},
     "dubai": {"name": "Dubai", "latitude": 25.2048, "longitude": 55.2708, "country": "United Arab Emirates", "region": "Dubai"},
+    "uae": {"name": "United Arab Emirates", "latitude": 25.2048, "longitude": 55.2708, "country": "United Arab Emirates", "region": "Middle East"},
     "snohomish": {"name": "Snohomish", "latitude": 47.9129, "longitude": -122.0982, "country": "United States", "region": "Washington"},
     "rome": {"name": "Rome", "latitude": 41.9028, "longitude": 12.4964, "country": "Italy", "region": "Lazio"},
+    "italy": {"name": "Italy", "latitude": 41.9028, "longitude": 12.4964, "country": "Italy", "region": "Southern Europe"},
     "barcelona": {"name": "Barcelona", "latitude": 41.3879, "longitude": 2.1699, "country": "Spain", "region": "Catalonia"},
+    "spain": {"name": "Spain", "latitude": 40.4168, "longitude": -3.7038, "country": "Spain", "region": "Southern Europe"},
     "amsterdam": {"name": "Amsterdam", "latitude": 52.3676, "longitude": 4.9041, "country": "Netherlands", "region": "North Holland"},
+    "netherlands": {"name": "Netherlands", "latitude": 52.3676, "longitude": 4.9041, "country": "Netherlands", "region": "Western Europe"},
     "singapore": {"name": "Singapore", "latitude": 1.3521, "longitude": 103.8198, "country": "Singapore", "region": "Central"},
     "berlin": {"name": "Berlin", "latitude": 52.5200, "longitude": 13.4050, "country": "Germany", "region": "Berlin"},
+    "germany": {"name": "Germany", "latitude": 52.5200, "longitude": 13.4050, "country": "Germany", "region": "Central Europe"},
+    "korea": {"name": "South Korea", "latitude": 37.5665, "longitude": 126.9780, "country": "South Korea", "region": "East Asia"},
+    "south korea": {"name": "South Korea", "latitude": 37.5665, "longitude": 126.9780, "country": "South Korea", "region": "East Asia"},
+    "seoul": {"name": "Seoul", "latitude": 37.5665, "longitude": 126.9780, "country": "South Korea", "region": "Seoul Capital Area"},
+    "bali": {"name": "Bali", "latitude": -8.3405, "longitude": 115.0920, "country": "Indonesia", "region": "Lesser Sunda Islands"},
+    "indonesia": {"name": "Indonesia", "latitude": -6.2088, "longitude": 106.8456, "country": "Indonesia", "region": "Southeast Asia"},
     "san francisco": {"name": "San Francisco", "latitude": 37.7749, "longitude": -122.4194, "country": "United States", "region": "California"},
     "los angeles": {"name": "Los Angeles", "latitude": 34.0522, "longitude": -118.2437, "country": "United States", "region": "California"},
     "chicago": {"name": "Chicago", "latitude": 41.8781, "longitude": -87.6298, "country": "United States", "region": "Illinois"},
     "toronto": {"name": "Toronto", "latitude": 43.6532, "longitude": -79.3832, "country": "Canada", "region": "Ontario"},
     "vancouver": {"name": "Vancouver", "latitude": 49.2827, "longitude": -123.1207, "country": "Canada", "region": "British Columbia"},
-    "seoul": {"name": "Seoul", "latitude": 37.5665, "longitude": 126.9780, "country": "South Korea", "region": "Seoul Capital Area"},
+    "canada": {"name": "Canada", "latitude": 45.4215, "longitude": -75.6972, "country": "Canada", "region": "North America"},
     "bangkok": {"name": "Bangkok", "latitude": 13.7563, "longitude": 100.5018, "country": "Thailand", "region": "Central Thailand"},
+    "thailand": {"name": "Thailand", "latitude": 13.7563, "longitude": 100.5018, "country": "Thailand", "region": "Southeast Asia"},
     "mumbai": {"name": "Mumbai", "latitude": 19.0760, "longitude": 72.8777, "country": "India", "region": "Maharashtra"},
     "delhi": {"name": "Delhi", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "region": "National Capital Territory"},
+    "india": {"name": "India", "latitude": 28.6139, "longitude": 77.2090, "country": "India", "region": "South Asia"},
     "cairo": {"name": "Cairo", "latitude": 30.0444, "longitude": 31.2357, "country": "Egypt", "region": "Cairo Governorate"},
+    "egypt": {"name": "Egypt", "latitude": 30.0444, "longitude": 31.2357, "country": "Egypt", "region": "North Africa"},
     "buenos aires": {"name": "Buenos Aires", "latitude": -34.6037, "longitude": -58.3816, "country": "Argentina", "region": "Capital Federal"},
     "rio de janeiro": {"name": "Rio de Janeiro", "latitude": -22.9068, "longitude": -43.1729, "country": "Brazil", "region": "Rio de Janeiro"},
+    "brazil": {"name": "Brazil", "latitude": -22.9068, "longitude": -43.1729, "country": "Brazil", "region": "South America"},
     "cape town": {"name": "Cape Town", "latitude": -33.9249, "longitude": 18.4241, "country": "South Africa", "region": "Western Cape"},
     "reykjavik": {"name": "Reykjavik", "latitude": 64.1466, "longitude": -21.9426, "country": "Iceland", "region": "Capital Region"},
+    "iceland": {"name": "Iceland", "latitude": 64.1466, "longitude": -21.9426, "country": "Iceland", "region": "Nordic"},
+    "switzerland": {"name": "Switzerland", "latitude": 46.9480, "longitude": 7.4474, "country": "Switzerland", "region": "Central Europe"},
+    "zurich": {"name": "Zurich", "latitude": 47.3769, "longitude": 8.5417, "country": "Switzerland", "region": "Zurich"},
+    "greece": {"name": "Greece", "latitude": 37.9838, "longitude": 23.7275, "country": "Greece", "region": "Southern Europe"},
+    "athens": {"name": "Athens", "latitude": 37.9838, "longitude": 23.7275, "country": "Greece", "region": "Attica"},
 }
 
 # Known fictional or mythological locations to explicitly reject
@@ -108,7 +134,7 @@ class GuardrailAgent:
         # ── 4. Authoritative Open-Meteo Global Geocoding API ─────────
         try:
             encoded = urllib.parse.quote(city_name.strip())
-            url = f"https://geocoding-api.open-meteo.com/v1/search?name={encoded}&count=5&language=en&format=json"
+            url = f"https://geocoding-api.open-meteo.com/v1/search?name={encoded}&count=10&language=en&format=json"
             req = urllib.request.Request(url, headers={"User-Agent": "EnterpriseTravelGuardrail/2.0"})
 
             with urllib.request.urlopen(req, timeout=2.5) as resp:
@@ -116,17 +142,9 @@ class GuardrailAgent:
                 results = data.get("results", [])
                 
                 if results and len(results) > 0:
-                    # Select the most prominent match (highest population or primary match)
-                    best_match = None
-                    for r in results:
-                        feature_code = r.get("feature_code", "")
-                        # PPL: Populated place, ADM: Administrative region
-                        if feature_code.startswith("PPL") or feature_code.startswith("ADM") or not best_match:
-                            best_match = r
-                            if r.get("population", 0) > 1000:
-                                break
-
-                    top = best_match or results[0]
+                    # Sort results by population descending to prefer major cities/regions over tiny villages
+                    results_sorted = sorted(results, key=lambda x: (x.get("population") or 0), reverse=True)
+                    top = results_sorted[0]
                     found_name = top.get("name", city_name.title())
                     country = top.get("country", "")
                     admin1 = top.get("admin1", "")

@@ -16,6 +16,7 @@ import os
 import uuid
 import json
 import time
+import textwrap
 import pandas as pd
 import streamlit as st
 import plotly.graph_objects as go
@@ -25,6 +26,12 @@ from mcp_server.client import mcp_client
 from graph.builder import build_graph
 
 load_dotenv()
+
+
+def render_html(html_str: str):
+    """Safely render HTML without Streamlit CommonMark indented-code-block corruption."""
+    st.markdown(textwrap.dedent(html_str).strip(), unsafe_allow_html=True)
+
 
 # ── Page Configuration ───────────────────────────────────────────────
 st.set_page_config(
@@ -396,18 +403,18 @@ with st.sidebar:
 # ── Top App Brand Bar ────────────────────────────────────────────────
 col_b1, col_b2 = st.columns([3, 1])
 with col_b1:
-    st.markdown("""
+    render_html("""
     <div class="app-brand-bar">
         <div>
             <div class="app-brand-title">✈️ Voyager AI</div>
             <div class="app-brand-tag">Intelligent Multi-Modal Travel Concierge & Agentic Platform</div>
         </div>
     </div>
-    """, unsafe_allow_html=True)
+    """)
 
 
 # ── Quick Destination Recommendation Carousel ────────────────────────
-st.markdown("<p style='font-size: 0.82rem; font-weight: 700; color: #64748b; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em;'>POPULAR DESTINATIONS:</p>", unsafe_allow_html=True)
+render_html("<p style='font-size: 0.82rem; font-weight: 700; color: #64748b; margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.05em;'>POPULAR DESTINATIONS:</p>")
 col_q1, col_q2, col_q3, col_q4, col_q5, col_q6 = st.columns(6)
 
 quick_query = None
@@ -608,7 +615,7 @@ if st.session_state.history:
     # ═════════════════════════════════════════════════════════════════
     if source == "guardrail_rejected":
         with st.container(border=True):
-            st.markdown(f"""
+            render_html(f"""
             <div style="background: #fef2f2; border: 1.5px solid #fecaca; border-radius: 16px; padding: 1.8rem 2rem; margin-bottom: 1rem;">
                 <h3 style="color: #991b1b; font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; margin-top: 0; margin-bottom: 0.6rem;">
                     🛡️ Security & Verification Guardrail Alert
@@ -619,7 +626,7 @@ if st.session_state.history:
                     <b>Zero-Hallucination Policy</b>: Non-existent, fictional, or unverified locations are strictly blocked from generating synthetic coordinates, weather, or maps.
                 </p>
             </div>
-            """, unsafe_allow_html=True)
+            """)
             st.info("💡 **Looking for inspiration?** Try exploring verified destinations like **Paris**, **Tokyo**, **Kyoto**, **New York**, **Snohomish**, **London**, **Rome**, or **Dubai**.")
 
     # ═════════════════════════════════════════════════════════════════
@@ -636,21 +643,30 @@ if st.session_state.history:
             hero_weather_str = f"🌤️ {first_day.get('temperature_high', 0)}°C {first_day.get('condition', '')}"
 
         # ── 1. Destination Hero Banner ──
-        st.markdown(f"""
+        pills_list = []
+        if hero_weather_str:
+            pills_list.append(f'<span class="hero-glass-pill hero-glass-pill-highlight">{hero_weather_str}</span>')
+        if coords and isinstance(coords, dict):
+            pills_list.append(f'<span class="hero-glass-pill">📍 {coords["latitude"]:.2f}°, {coords["longitude"]:.2f}°</span>')
+        if currency:
+            pills_list.append(f'<span class="hero-glass-pill">💰 {currency}</span>')
+        if language:
+            pills_list.append(f'<span class="hero-glass-pill">🗣️ {language}</span>')
+        if best_season:
+            pills_list.append(f'<span class="hero-glass-pill">🗓️ {best_season}</span>')
+
+        pills_html_str = "".join(pills_list)
+        sub_title_str = f"Destination in {country}" if country else "Global Destination"
+
+        render_html(f"""
         <div class="dest-hero-canvas" style="background-image: url('{hero_img}');">
             <div class="dest-hero-overlay">
                 <div class="dest-hero-title">{city_name}</div>
-                <div class="dest-hero-sub">{f'Destination in {country}' if country else 'Global Destination'}</div>
-                <div class="hero-pills-row">
-                    {f'<span class="hero-glass-pill hero-glass-pill-highlight">{hero_weather_str}</span>' if hero_weather_str else ''}
-                    {f'<span class="hero-glass-pill">📍 {coords["latitude"]:.2f}°, {coords["longitude"]:.2f}°</span>' if coords and isinstance(coords, dict) else ''}
-                    {f'<span class="hero-glass-pill">💰 {currency}</span>' if currency else ''}
-                    {f'<span class="hero-glass-pill">🗣️ {language}</span>' if language else ''}
-                    {f'<span class="hero-glass-pill">🗓️ {best_season}</span>' if best_season else ''}
-                </div>
+                <div class="dest-hero-sub">{sub_title_str}</div>
+                <div class="hero-pills-row">{pills_html_str}</div>
             </div>
         </div>
-        """, unsafe_allow_html=True)
+        """)
 
         # ── 2. Destination Story & Vitals Table ──
         with st.container(border=True):
@@ -692,7 +708,7 @@ if st.session_state.history:
                     emoji = condition_emojis.get(day.get("condition", "").lower(), "🌡️")
                     date_str = day.get("date", "")[-5:]
                     with col:
-                        st.markdown(f"""
+                        render_html(f"""
                         <div class="forecast-card">
                             <div class="fc-day">{date_str}</div>
                             <div class="fc-icon">{emoji}</div>
@@ -700,7 +716,7 @@ if st.session_state.history:
                             <div class="fc-low">Low {day.get('temperature_low', 0)}°C</div>
                             <div class="fc-cond">{day.get('condition', '')}</div>
                         </div>
-                        """, unsafe_allow_html=True)
+                        """)
 
                 st.markdown("<br>", unsafe_allow_html=True)
 
@@ -821,13 +837,13 @@ if st.session_state.history:
                             tod = act.get("time_of_day", "Activity")
                             tag_cls = f"act-tag-{tod.lower()}" if tod.lower() in ["morning", "afternoon", "evening"] else "act-tag-morning"
                             loc_str = f"📍 <i>{act.get('location')}</i> — " if act.get("location") else ""
-                            st.markdown(f"""
+                            render_html(f"""
                             <div class="timeline-step">
                                 <div class="timeline-badge"></div>
                                 <span class="{tag_cls}">{tod}</span> <b>{act.get('title')}</b><br>
                                 <span style="color: #475569; font-size: 0.9rem;">{loc_str}{act.get('description')}</span>
                             </div>
-                            """, unsafe_allow_html=True)
+                            """)
                             itin_rows.append({
                                 "Day": f"Day {day_num}",
                                 "Theme": day_theme,
@@ -858,7 +874,7 @@ if st.session_state.history:
                     a = img_item.get("attribution", "") if isinstance(img_item, dict) else ""
 
                     with photo_cols[i % 3]:
-                        st.markdown(f"""
+                        render_html(f"""
                         <div class="photo-frame">
                             <img src="{u}" alt="{t}">
                             <div class="photo-caption-bar">
@@ -869,7 +885,7 @@ if st.session_state.history:
                                 </div>
                             </div>
                         </div>
-                        """, unsafe_allow_html=True)
+                        """)
 
         # ── 8. Interactive Follow-Up Assistant (Time Travel / Distinction 3) ──
         with st.container(border=True):
@@ -949,7 +965,7 @@ else:
     c1, c2, c3 = st.columns([1, 2.5, 1])
     with c2:
         with st.container(border=True):
-            st.markdown("""
+            render_html("""
             <div style="text-align: center; padding: 2.5rem 1.5rem;">
                 <div style="font-size: 3.5rem; margin-bottom: 0.6rem;">✨</div>
                 <h2 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.8rem; color: #0f172a; margin-bottom: 0.4rem; letter-spacing: -0.02em;">
@@ -965,5 +981,6 @@ else:
                     <span class="hero-glass-pill" style="background: #f1f5f9; color: #334155; border-color: #cbd5e1;">📸 Verified Photography</span>
                 </div>
             </div>
-            """, unsafe_allow_html=True)
+            """)
+
 

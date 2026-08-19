@@ -61,3 +61,7 @@ Thumbs.db
 # Database storage
 *.sqlite3
 *.db
+
+# Screenshots
+image.png
+*.screenshot.png

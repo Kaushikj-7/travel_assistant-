@@ -44,14 +44,27 @@ WMO_CODE_MAP = {
 # Verified climate baselines for top destinations (used as offline fallback)
 CLIMATE_PROFILES = {
     "paris": {"base_high": 22, "base_low": 14, "conditions": ["Partly Cloudy", "Sunny", "Overcast", "Light Rain"], "humidity": (55, 80), "wind": (8, 22)},
+    "france": {"base_high": 22, "base_low": 14, "conditions": ["Partly Cloudy", "Sunny", "Overcast", "Light Rain"], "humidity": (55, 80), "wind": (8, 22)},
     "tokyo": {"base_high": 28, "base_low": 21, "conditions": ["Humid", "Sunny", "Thunderstorm", "Partly Cloudy"], "humidity": (60, 90), "wind": (5, 18)},
+    "japan": {"base_high": 27, "base_low": 19, "conditions": ["Partly Cloudy", "Sunny", "Light Rain", "Clear Sky"], "humidity": (55, 85), "wind": (6, 18)},
     "new york": {"base_high": 25, "base_low": 17, "conditions": ["Sunny", "Partly Cloudy", "Cloudy", "Scattered Showers"], "humidity": (45, 75), "wind": (10, 28)},
+    "nyc": {"base_high": 25, "base_low": 17, "conditions": ["Sunny", "Partly Cloudy", "Cloudy", "Scattered Showers"], "humidity": (45, 75), "wind": (10, 28)},
     "kyoto": {"base_high": 30, "base_low": 22, "conditions": ["Hot & Humid", "Sunny", "Partly Cloudy", "Rain Showers"], "humidity": (65, 88), "wind": (4, 15)},
     "london": {"base_high": 18, "base_low": 11, "conditions": ["Overcast", "Drizzle", "Partly Cloudy", "Light Rain"], "humidity": (65, 90), "wind": (12, 30)},
+    "uk": {"base_high": 18, "base_low": 11, "conditions": ["Overcast", "Drizzle", "Partly Cloudy", "Light Rain"], "humidity": (65, 90), "wind": (12, 30)},
     "sydney": {"base_high": 24, "base_low": 16, "conditions": ["Sunny", "Clear", "Partly Cloudy", "Breezy"], "humidity": (40, 70), "wind": (10, 25)},
     "dubai": {"base_high": 42, "base_low": 30, "conditions": ["Sunny", "Hot", "Clear", "Hazy"], "humidity": (20, 55), "wind": (8, 20)},
     "snohomish": {"base_high": 19, "base_low": 10, "conditions": ["Cloudy", "Rain Showers", "Overcast", "Partly Cloudy"], "humidity": (70, 95), "wind": (6, 16)},
     "rome": {"base_high": 27, "base_low": 18, "conditions": ["Sunny", "Clear", "Partly Cloudy", "Warm"], "humidity": (45, 70), "wind": (6, 18)},
+    "italy": {"base_high": 27, "base_low": 18, "conditions": ["Sunny", "Clear", "Partly Cloudy", "Warm"], "humidity": (45, 70), "wind": (6, 18)},
+    "korea": {"base_high": 27, "base_low": 19, "conditions": ["Partly Cloudy", "Slight Rain Showers", "Sunny", "Mainly Clear"], "humidity": (60, 85), "wind": (6, 18)},
+    "south korea": {"base_high": 27, "base_low": 19, "conditions": ["Partly Cloudy", "Slight Rain Showers", "Sunny", "Mainly Clear"], "humidity": (60, 85), "wind": (6, 18)},
+    "seoul": {"base_high": 28, "base_low": 20, "conditions": ["Partly Cloudy", "Slight Rain Showers", "Sunny", "Mainly Clear"], "humidity": (60, 85), "wind": (6, 18)},
+    "bali": {"base_high": 31, "base_low": 24, "conditions": ["Tropical Warm", "Sunny", "Scattered Showers", "Breezy"], "humidity": (70, 90), "wind": (8, 20)},
+    "barcelona": {"base_high": 28, "base_low": 20, "conditions": ["Sunny", "Clear Sky", "Partly Cloudy", "Warm"], "humidity": (50, 75), "wind": (7, 19)},
+    "amsterdam": {"base_high": 20, "base_low": 13, "conditions": ["Partly Cloudy", "Light Rain", "Overcast", "Breezy"], "humidity": (65, 85), "wind": (12, 28)},
+    "singapore": {"base_high": 32, "base_low": 25, "conditions": ["Tropical Humid", "Thunderstorm", "Partly Cloudy", "Rain Showers"], "humidity": (75, 95), "wind": (5, 15)},
+    "berlin": {"base_high": 23, "base_low": 14, "conditions": ["Partly Cloudy", "Sunny", "Overcast", "Moderate Rain"], "humidity": (50, 80), "wind": (8, 22)},
 }
 
 
@@ -71,25 +84,39 @@ def _estimate_humidity_from_wmo(code: int) -> int:
 
 def _fetch_live_open_meteo(city: str) -> List[Dict[str, Any]]:
     """Query Open-Meteo Geocoding and Forecast API."""
-    city_encoded = urllib.parse.quote(city.strip())
-    geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_encoded}&count=1&language=en&format=json"
-    
-    req = urllib.request.Request(geo_url, headers={"User-Agent": "ProductionTravelAssistant/2.0"})
-    with urllib.request.urlopen(req, timeout=2.0) as response:
-        geo_data = json.loads(response.read().decode("utf-8"))
-    
-    if not geo_data.get("results"):
-        return []
-    
-    loc = geo_data["results"][0]
-    lat, lon = loc["latitude"], loc["longitude"]
+    city_clean = city.strip().lower()
+    lat, lon = None, None
+
+    # Check verified registry first for direct, high-accuracy coordinates
+    try:
+        from agents.guardrail_agent import VERIFIED_GLOBAL_REGISTRY
+        if city_clean in VERIFIED_GLOBAL_REGISTRY:
+            meta = VERIFIED_GLOBAL_REGISTRY[city_clean]
+            lat, lon = meta["latitude"], meta["longitude"]
+    except Exception:
+        pass
+
+    if lat is None or lon is None:
+        city_encoded = urllib.parse.quote(city.strip())
+        geo_url = f"https://geocoding-api.open-meteo.com/v1/search?name={city_encoded}&count=5&language=en&format=json"
+        req = urllib.request.Request(geo_url, headers={"User-Agent": "ProductionTravelAssistant/2.0"})
+        with urllib.request.urlopen(req, timeout=3.0) as response:
+            geo_data = json.loads(response.read().decode("utf-8"))
+        
+        results = geo_data.get("results", [])
+        if not results:
+            return []
+        
+        results_sorted = sorted(results, key=lambda x: (x.get("population") or 0), reverse=True)
+        top = results_sorted[0]
+        lat, lon = top["latitude"], top["longitude"]
 
     forecast_url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={lat}&longitude={lon}&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,precipitation_sum&timezone=auto"
     )
     req2 = urllib.request.Request(forecast_url, headers={"User-Agent": "ProductionTravelAssistant/2.0"})
-    with urllib.request.urlopen(req2, timeout=2.0) as response:
+    with urllib.request.urlopen(req2, timeout=3.0) as response:
         fc_data = json.loads(response.read().decode("utf-8"))
     
     daily = fc_data.get("daily", {})
@@ -98,18 +125,21 @@ def _fetch_live_open_meteo(city: str) -> List[Dict[str, Any]]:
     lows = daily.get("temperature_2m_min", [])
     codes = daily.get("weathercode", [])
     winds = daily.get("windspeed_10m_max", [])
+    precips = daily.get("precipitation_sum", [])
 
     results = []
     for i in range(min(7, len(dates))):
         w_code = codes[i] if i < len(codes) else 0
         cond = WMO_CODE_MAP.get(w_code, "Partly Cloudy")
+        precip_val = round(float(precips[i]), 1) if i < len(precips) and precips[i] is not None else 0.0
         results.append({
             "date": dates[i],
-            "temperature_high": round(float(highs[i]), 1),
-            "temperature_low": round(float(lows[i]), 1),
+            "temperature_high": round(float(highs[i]), 1) if i < len(highs) else 20.0,
+            "temperature_low": round(float(lows[i]), 1) if i < len(lows) else 12.0,
             "condition": cond,
             "humidity": _estimate_humidity_from_wmo(w_code),
             "wind_speed": round(float(winds[i]), 1) if i < len(winds) else 12.0,
+            "precipitation_sum": precip_val,
         })
     return results
 

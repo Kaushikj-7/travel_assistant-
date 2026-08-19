@@ -164,6 +164,90 @@ CURATED_CATEGORY_MEDIA: Dict[str, List[Dict[str, str]]] = {
             "attribution": "Unsplash / Kyoto Food"
         },
     ],
+    "korea": [
+        {
+            "url": "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&auto=format&fit=crop&q=80",
+            "title": "Gyeongbokgung Palace & Mount Bugak",
+            "category": "Landmark",
+            "attribution": "Unsplash / Korea Travel"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1546874177-9e664107314e?w=900&auto=format&fit=crop&q=80",
+            "title": "Bukchon Hanok Traditional Village",
+            "category": "Culture",
+            "attribution": "Unsplash / Seoul Heritage"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=900&auto=format&fit=crop&q=80",
+            "title": "N Seoul Tower Sunset Panorama",
+            "category": "Skyline",
+            "attribution": "Unsplash / Korea Skyline"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=900&auto=format&fit=crop&q=80",
+            "title": "Myeongdong Night Market & Street Food",
+            "category": "Gastronomy",
+            "attribution": "Unsplash / Korean Food"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=900&auto=format&fit=crop&q=80",
+            "title": "Busan Gamcheon Culture Village & Coast",
+            "category": "Scenic",
+            "attribution": "Unsplash / Busan Travel"
+        },
+    ],
+    "south korea": [
+        {
+            "url": "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&auto=format&fit=crop&q=80",
+            "title": "Gyeongbokgung Palace & Mount Bugak",
+            "category": "Landmark",
+            "attribution": "Unsplash / Korea Travel"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1546874177-9e664107314e?w=900&auto=format&fit=crop&q=80",
+            "title": "Bukchon Hanok Traditional Village",
+            "category": "Culture",
+            "attribution": "Unsplash / Seoul Heritage"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=900&auto=format&fit=crop&q=80",
+            "title": "N Seoul Tower Sunset Panorama",
+            "category": "Skyline",
+            "attribution": "Unsplash / Korea Skyline"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=900&auto=format&fit=crop&q=80",
+            "title": "Myeongdong Night Market & Street Food",
+            "category": "Gastronomy",
+            "attribution": "Unsplash / Korean Food"
+        },
+    ],
+    "seoul": [
+        {
+            "url": "https://images.unsplash.com/photo-1538485399081-7191377e8241?w=900&auto=format&fit=crop&q=80",
+            "title": "Gyeongbokgung Palace Throne Hall",
+            "category": "Landmark",
+            "attribution": "Unsplash / Seoul Travel"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1517154421773-0529f29ea451?w=900&auto=format&fit=crop&q=80",
+            "title": "N Seoul Tower & Namsan Mountain",
+            "category": "Skyline",
+            "attribution": "Unsplash / Seoul Tower"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1546874177-9e664107314e?w=900&auto=format&fit=crop&q=80",
+            "title": "Bukchon Hanok Village Historic Alleyways",
+            "category": "Culture",
+            "attribution": "Unsplash / Hanok"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1580651315530-69c8e0026377?w=900&auto=format&fit=crop&q=80",
+            "title": "Korean Bibimbap & Authentic Dining",
+            "category": "Gastronomy",
+            "attribution": "Unsplash / Korean Cuisine"
+        },
+    ],
     "london": [
         {
             "url": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=900&auto=format&fit=crop&q=80",
@@ -276,6 +360,26 @@ CURATED_CATEGORY_MEDIA: Dict[str, List[Dict[str, str]]] = {
             "attribution": "Unsplash / Roman Food"
         },
     ],
+    "bali": [
+        {
+            "url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=900&auto=format&fit=crop&q=80",
+            "title": "Ubud Tegallalang Emerald Rice Terraces",
+            "category": "Scenic",
+            "attribution": "Unsplash / Bali Landscape"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?w=900&auto=format&fit=crop&q=80",
+            "title": "Ulun Danu Beratan Water Temple",
+            "category": "Landmark",
+            "attribution": "Unsplash / Bali Temple"
+        },
+        {
+            "url": "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?w=900&auto=format&fit=crop&q=80",
+            "title": "Tropical Balinese Coastal Sunset",
+            "category": "Culture",
+            "attribution": "Unsplash / Bali Coast"
+        },
+    ],
 }
 
 
@@ -284,14 +388,16 @@ EXCLUDED_IMAGE_TERMS = [
     "flag", "coat_of_arms", "coat of arms", "wappen", "blason", "seal", 
     "locator", "map", "symbol", "insignia", "logo", "icon", "diagram", 
     "chart", "plan", "population", "carte", "satellite", "schema", 
-    "demography", "isoline", "outline", "stamp", "signature", "graph"
+    "demography", "isoline", "outline", "stamp", "signature", "graph",
+    "svg", "pdf", "audio", "sound", "sheet", "bottle", "coin", "banknote"
 ]
+
 
 def _clean_image_title(raw_title: str, city: str) -> str:
     """Format file name into a human-readable title."""
     title = raw_title.replace("File:", "").replace(".jpg", "").replace(".jpeg", "").replace(".png", "")
     title = re.sub(r"[_\-\+]+", " ", title)
-    title = re.sub(r"\b(px|thumb|jpg|jpeg|png|wikimedia|commons)\b", "", title, flags=re.IGNORECASE)
+    title = re.sub(r"\b(px|thumb|jpg|jpeg|png|wikimedia|commons|photo|image)\b", "", title, flags=re.IGNORECASE)
     title = re.sub(r"\s+", " ", title).strip()
     if len(title) > 50:
         title = title[:48] + "..."
@@ -299,21 +405,45 @@ def _clean_image_title(raw_title: str, city: str) -> str:
 
 
 def _fetch_wikimedia_images(city: str) -> List[Dict[str, str]]:
-    """Query Wikimedia Commons search API for authentic high-resolution photography."""
+    """Query Wikipedia & Wikimedia Commons API for authentic high-resolution photography."""
     extracted_media = []
     seen_urls = set()
     city_encoded = urllib.parse.quote(city.strip())
     
-    # 1. Search Wikimedia Commons for scenic / landmark photos
+    # 1. Wikipedia Page Main Lead Image (high accuracy)
     try:
-        url = (
-            f"https://commons.wikimedia.org/w/api.php?"
-            f"action=query&generator=search&gsrsearch={city_encoded}+landmark+OR+skyline+OR+cityscape"
-            f"&gsrlimit=15&prop=imageinfo&iiprop=url|dimensions&iiurlwidth=1000&format=json"
+        url_wiki = (
+            f"https://en.wikipedia.org/w/api.php?"
+            f"action=query&titles={city_encoded}&prop=pageimages&pithumbsize=1200&format=json"
         )
-        req = urllib.request.Request(url, headers={"User-Agent": "TravelAssistantAgent/2.0 (contact: travel@ai.com)"})
+        req_wiki = urllib.request.Request(url_wiki, headers={"User-Agent": "TravelAssistantAgent/2.0"})
+        with urllib.request.urlopen(req_wiki, timeout=3.0) as resp_w:
+            data_w = json.loads(resp_w.read().decode("utf-8"))
+            pages_w = data_w.get("query", {}).get("pages", {})
+            for pid, pinfo in pages_w.items():
+                thumb = pinfo.get("thumbnail", {}).get("source")
+                title = pinfo.get("title", city)
+                if thumb and thumb.startswith("http") and not any(term in thumb.lower() for term in EXCLUDED_IMAGE_TERMS):
+                    seen_urls.add(thumb)
+                    extracted_media.append({
+                        "url": thumb,
+                        "title": f"{title} Landmark View",
+                        "category": "Landmark",
+                        "attribution": "Wikipedia Geotagged Media"
+                    })
+    except Exception:
+        pass
+
+    # 2. Wikimedia Commons Search for scenic / landmark photos
+    try:
+        url_commons = (
+            f"https://commons.wikimedia.org/w/api.php?"
+            f"action=query&generator=search&gsrsearch={city_encoded}+landmark+OR+travel"
+            f"&gsrnamespace=6&gsrlimit=20&prop=imageinfo&iiprop=url|dimensions&iiurlwidth=1200&format=json"
+        )
+        req = urllib.request.Request(url_commons, headers={"User-Agent": "TravelAssistantAgent/2.0 (contact: travel@ai.com)"})
         
-        with urllib.request.urlopen(req, timeout=3.0) as resp:
+        with urllib.request.urlopen(req, timeout=3.5) as resp:
             data = json.loads(resp.read().decode("utf-8"))
             pages = data.get("query", {}).get("pages", {})
             
@@ -334,48 +464,22 @@ def _fetch_wikimedia_images(city: str) -> List[Dict[str, str]]:
                 if imageinfo:
                     info = imageinfo[0]
                     thumb_url = info.get("thumburl") or info.get("url")
-                    width = info.get("thumbwidth") or info.get("width", 0)
                     
                     if thumb_url and thumb_url.startswith("http") and thumb_url not in seen_urls:
-                        seen_urls.add(thumb_url)
-                        clean_title = _clean_image_title(title, city)
-                        extracted_media.append({
-                            "url": thumb_url,
-                            "title": clean_title,
-                            "category": categories_cycle[cat_idx % len(categories_cycle)],
-                            "attribution": "Wikimedia Commons"
-                        })
-                        cat_idx += 1
-                        if len(extracted_media) >= 6:
-                            break
+                        if not any(term in thumb_url.lower() for term in EXCLUDED_IMAGE_TERMS):
+                            seen_urls.add(thumb_url)
+                            clean_title = _clean_image_title(title, city)
+                            extracted_media.append({
+                                "url": thumb_url,
+                                "title": clean_title,
+                                "category": categories_cycle[cat_idx % len(categories_cycle)],
+                                "attribution": "Wikimedia Commons"
+                            })
+                            cat_idx += 1
+                            if len(extracted_media) >= 6:
+                                break
     except Exception:
         pass
-
-    # 2. Fallback to Wikipedia Page Images if Commons returned fewer than 3
-    if len(extracted_media) < 3:
-        try:
-            url_wiki = (
-                f"https://en.wikipedia.org/w/api.php?"
-                f"action=query&titles={city_encoded}&prop=pageimages|images&pithumbsize=1000&format=json"
-            )
-            req2 = urllib.request.Request(url_wiki, headers={"User-Agent": "TravelAssistantAgent/2.0"})
-            with urllib.request.urlopen(req2, timeout=2.0) as resp2:
-                data2 = json.loads(resp2.read().decode("utf-8"))
-                pages2 = data2.get("query", {}).get("pages", {})
-                for pid, pinfo in pages2.items():
-                    thumb = pinfo.get("thumbnail", {}).get("source")
-                    title = pinfo.get("title", city)
-                    if thumb and thumb.startswith("http") and thumb not in seen_urls:
-                        if not any(term in thumb.lower() for term in EXCLUDED_IMAGE_TERMS):
-                            seen_urls.add(thumb)
-                            extracted_media.insert(0, {
-                                "url": thumb,
-                                "title": f"{title} Landmark View",
-                                "category": "Landmark",
-                                "attribution": "Wikipedia Geotagged Media"
-                            })
-        except Exception:
-            pass
 
     return extracted_media
 
@@ -421,3 +525,4 @@ def get_city_images(city: str) -> List[str]:
     """
     media_items = get_curated_media_objects(city)
     return [item["url"] for item in media_items]
+
