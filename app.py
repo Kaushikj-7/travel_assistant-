@@ -30,7 +30,8 @@ load_dotenv()
 
 def render_html(html_str: str):
     """Safely render HTML without Streamlit CommonMark indented-code-block corruption."""
-    st.markdown(textwrap.dedent(html_str).strip(), unsafe_allow_html=True)
+    cleaned = "\n".join(line.strip() for line in html_str.strip().splitlines() if line.strip())
+    st.markdown(cleaned, unsafe_allow_html=True)
 
 
 # ── Page Configuration ───────────────────────────────────────────────
@@ -42,7 +43,7 @@ st.set_page_config(
 )
 
 # ── Luxury Styling & Modern Aesthetic Design System ──────────────────
-st.markdown("""
+render_html("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap');
 
@@ -77,65 +78,59 @@ st.markdown("""
     /* ── Cinematic Destination Hero Cover ── */
     .dest-hero-canvas {
         position: relative;
-        border-radius: 26px;
-        overflow: hidden;
-        margin-bottom: 2rem;
-        min-height: 280px;
-        background-size: cover;
-        background-position: center;
-        box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.25);
+        border-radius: 24px;
+        padding: 3.5rem 2.8rem 2.2rem;
+        margin-bottom: 1.8rem;
+        min-height: 320px;
+        box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.35);
         border: 1px solid rgba(255, 255, 255, 0.15);
-    }
-    .dest-hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.82) 65%, rgba(15, 23, 42, 0.96) 100%);
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        padding: 2.5rem 2.8rem;
     }
     .dest-hero-title {
         font-family: 'Outfit', sans-serif;
-        font-size: 3.2rem;
+        font-size: 3.4rem;
         font-weight: 800;
         color: #ffffff;
         letter-spacing: -0.03em;
         margin: 0;
-        line-height: 1.1;
-        text-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        line-height: 1.15;
+        text-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
     }
     .dest-hero-sub {
-        font-size: 1.15rem;
-        font-weight: 500;
-        color: rgba(255, 255, 255, 0.85);
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.92);
         margin-top: 0.4rem;
-        margin-bottom: 1.2rem;
+        margin-bottom: 1.3rem;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
     }
     .hero-pills-row {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.6rem;
+        gap: 0.65rem;
         align-items: center;
     }
     .hero-glass-pill {
         display: inline-flex;
         align-items: center;
         gap: 0.4rem;
-        background: rgba(255, 255, 255, 0.16);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(15, 23, 42, 0.55);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
-        padding: 0.4rem 0.95rem;
+        padding: 0.45rem 1rem;
         border-radius: 999px;
-        font-size: 0.86rem;
+        font-size: 0.88rem;
         font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     .hero-glass-pill-highlight {
-        background: rgba(79, 70, 229, 0.35);
-        border-color: rgba(129, 140, 248, 0.45);
-        color: #e0e7ff;
+        background: rgba(79, 70, 229, 0.65);
+        border-color: rgba(165, 180, 252, 0.7);
+        color: #ffffff;
     }
 
     /* ── App Top Header ── */
@@ -326,7 +321,7 @@ st.markdown("""
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
-""", unsafe_allow_html=True)
+""")
 
 
 # ── Initialize State & Compiled Graph ─────────────────────────────────
@@ -659,12 +654,10 @@ if st.session_state.history:
         sub_title_str = f"Destination in {country}" if country else "Global Destination"
 
         render_html(f"""
-        <div class="dest-hero-canvas" style="background-image: url('{hero_img}');">
-            <div class="dest-hero-overlay">
-                <div class="dest-hero-title">{city_name}</div>
-                <div class="dest-hero-sub">{sub_title_str}</div>
-                <div class="hero-pills-row">{pills_html_str}</div>
-            </div>
+        <div class="dest-hero-canvas" style="background: linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.75) 55%, rgba(15, 23, 42, 0.96) 100%), url('{hero_img}') center/cover no-repeat;">
+            <div class="dest-hero-title">{city_name}</div>
+            <div class="dest-hero-sub">{sub_title_str}</div>
+            <div class="hero-pills-row">{pills_html_str}</div>
         </div>
         """)
 
