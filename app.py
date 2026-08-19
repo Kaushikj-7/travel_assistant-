@@ -155,19 +155,55 @@ render_html("""
         font-weight: 500;
     }
 
-    /* ── Search Bar Styling ── */
-    .stTextInput > div > div > input {
-        border-radius: 16px !important;
+    /* ── Universal Input Field Styling (High Contrast & Clear Legibility) ── */
+    .stTextInput input,
+    .stTextInput input:focus,
+    div[data-baseweb="input"] input,
+    div[data-baseweb="base-input"] input {
+        border-radius: 14px !important;
         padding: 0.85rem 1.25rem !important;
         font-size: 1.05rem !important;
-        border: 1.5px solid #cbd5e1 !important;
-        background: #ffffff !important;
-        box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05) !important;
+        font-weight: 500 !important;
+        border: 1.5px solid #6366f1 !important;
+        background: #0f172a !important;
+        color: #f8fafc !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        caret-color: #818cf8 !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
         transition: all 0.2s ease !important;
     }
-    .stTextInput > div > div > input:focus {
-        border-color: #4f46e5 !important;
-        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12) !important;
+
+    .stTextInput input::placeholder,
+    div[data-baseweb="input"] input::placeholder {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+        font-weight: 400 !important;
+    }
+
+    .stTextInput input:focus,
+    div[data-baseweb="input"]:focus-within {
+        border-color: #818cf8 !important;
+        background: #1e293b !important;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.35) !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+    }
+
+    div[data-baseweb="input"],
+    div[data-baseweb="base-input"] {
+        background: transparent !important;
+        border: none !important;
+    }
+
+    /* ── Selectbox & Dropdowns ── */
+    div[data-baseweb="select"] > div {
+        border-radius: 12px !important;
+        background: #0f172a !important;
+        border: 1.5px solid #475569 !important;
+        color: #f8fafc !important;
+    }
+    div[data-baseweb="select"] * {
+        color: #f8fafc !important;
     }
 
     /* ── Cards & Glass Panels ── */
