@@ -58,10 +58,20 @@ Thumbs.db
 .gemini/
 *.log
 
-# Database storage
+# Database & Local Vector Storage
 *.sqlite3
 *.db
+chroma_db/
+chroma_data/
+.chroma/
 
-# Screenshots
-image.png
+# Research Papers, Assignment Specs & PDFs
+*.pdf
+
+# Screenshots & Local Assets (preserve architecture graph)
+*.png
+!graph.png
+*.jpg
+*.jpeg
 *.screenshot.png
+
